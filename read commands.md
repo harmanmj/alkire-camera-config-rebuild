@@ -31,6 +31,7 @@ $s = "get_device_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -42,6 +43,7 @@ $s = "get_system_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -53,6 +55,7 @@ $s = "get_network_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -64,6 +67,7 @@ $s = "get_ipcfg_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -75,6 +79,7 @@ $s = "get_image_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -86,6 +91,7 @@ $s = "get_advance_image_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -97,6 +103,7 @@ $s = "get_media_video"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -108,6 +115,7 @@ $s = "get_media_audio"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -119,6 +127,7 @@ $s = "get_overlay_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -130,6 +139,7 @@ $s = "get_ndi_info"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
@@ -141,11 +151,17 @@ $s = "get_language_conf"
 $p = Read-Host "Camera password for guest" -AsSecureString
 $out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
+$out = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
 $out
 "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $out, '```', "" | Add-Content "C:\dev\alkire-camera-config-rebuild\quail read output.md" -Encoding UTF8
 ```
 
 ## Notes
+
+- Passwords are never saved. Before a section is printed or saved, the value of each password setting
+  (`userpasswd`, `guestpasswd`, `srt_passstr`, `sipdevice_ipc_pw`) is replaced with `{{PASSWORD}}`.
+  When a section is written back to a camera, each `{{PASSWORD}}` is asked for at that point instead
+  of being read from the file.
 
 - Use `curl.exe`, not `curl`. In Windows PowerShell, plain `curl` is a different command and these
   options fail.
