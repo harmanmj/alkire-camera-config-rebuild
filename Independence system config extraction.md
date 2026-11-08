@@ -3,6 +3,8 @@
 These steps show one PTZ camera's **system settings** in a PowerShell window. Nothing is changed on the
 camera and nothing is saved to the computer: the settings are only printed on screen.
 
+This is intended to get the admin password so we can enable NDI on the camera. 
+
 ## Before you start
 
 - Use a Windows computer connected to the building's church network (the same network as the cameras).
