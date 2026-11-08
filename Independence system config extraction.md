@@ -1,4 +1,4 @@
-# Stake Admin Extraction: Read a PTZ Camera's System Settings
+# Independence System Config Extraction
 
 These steps show one PTZ camera's **system settings** in a PowerShell window. Nothing is changed on the
 camera and nothing is saved to the computer: the settings are only printed on screen.
