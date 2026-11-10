@@ -1,49 +1,56 @@
-# Read every config section from an RL500 PTZ camera and save each one to its own file.
+# Read every config section from an RL500 PTZ camera, print each one, and add each one to a Markdown file
+# under its own heading: the same output as the one-at-a-time commands in "read commands.md".
 #
-# The camera has no "whole config" endpoint, so each settings group is read separately with a
-# get_* command on /cgi-bin/param.cgi (HTTP digest auth). These commands only read: nothing is
-# written to the camera and it is not restarted.
+# The camera has no "whole config" endpoint, so each settings group is read separately with a get_*
+# command on /cgi-bin/param.cgi (HTTP digest auth). These commands only read: nothing is written to the
+# camera and it is not restarted.
 #
-# Example (Quail):
-#   powershell -ExecutionPolicy Bypass -File .\Read-CameraConfig.ps1 -CameraHost 192.168.111.245 -OutDir .\configs\quail
+# Password settings (userpasswd, guestpasswd, srt_passstr, sipdevice_ipc_pw) are printed in the terminal
+# with their real values, but replaced with {{PASSWORD}} in the saved file. The login password is asked
+# for and never saved.
 #
-# The password is asked for when -Password is not given, and is never saved.
+# Sections are added to the end of the file, so reading the same camera again adds a second copy with the
+# new read time. Use a different -OutFile for each camera.
+#
+# Example (Alkire):
+#   powershell -ExecutionPolicy Bypass -File .\Read-CameraConfig.ps1 -OutFile "alkire read output.md"
 param(
-    [Parameter(Mandatory)][string]$CameraHost,
-    [Parameter(Mandatory)][string]$OutDir,
-    [string]$User = 'guest',
-    [string]$Password
+    [Parameter(Mandatory)][string]$OutFile,
+    [string]$CameraHost = '192.168.111.245',
+    [string]$User = 'guest'
 )
 $ErrorActionPreference = 'Stop'
-
-if (-not $Password) {
-    $secure = Read-Host "Password for $User@$CameraHost" -AsSecureString
-    $Password = [Runtime.InteropServices.Marshal]::PtrToStringAuto(
-        [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure))
-}
-$cred = "${User}:$Password"
-$base = "http://$CameraHost/cgi-bin/param.cgi"
 
 $sections = @(
     'get_device_conf', 'get_system_conf', 'get_network_conf', 'get_ipcfg_conf',
     'get_image_conf', 'get_advance_image_conf', 'get_media_video', 'get_media_audio',
     'get_overlay_conf', 'get_ndi_info', 'get_language_conf'
 )
+$passwordKeys = 'userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw'
 
-# Check the login first (200 = good)
-$status = curl.exe -s -o NUL -w '%{http_code}' --digest -u $cred "http://$CameraHost/"
-if ($status -ne '200') { throw "Login to $CameraHost failed (HTTP $status)" }
+# A relative -OutFile is saved next to this script (the repo folder), wherever it is run from
+if (-not [IO.Path]::IsPathRooted($OutFile)) { $OutFile = Join-Path $PSScriptRoot $OutFile }
 
-New-Item -ItemType Directory -Force -Path $OutDir | Out-Null
-$combined = New-Object Collections.Generic.List[string]
-foreach ($s in $sections) {
-    $text = (curl.exe -s --digest -u $cred "$base`?$s") -join "`n"
-    if ($LASTEXITCODE -ne 0) { Write-Warning "$s failed (curl exit $LASTEXITCODE)"; continue }
-    Set-Content -Path (Join-Path $OutDir "$s.txt") -Value $text -Encoding UTF8
-    $combined.Add("[$s]")
-    $combined.Add($text)
-    $combined.Add('')
-    Write-Host "  $s saved"
+$p = Read-Host "Camera password for $User" -AsSecureString
+$cred = "${User}:" + [Net.NetworkCredential]::new('', $p).Password
+Remove-Variable p
+
+try {
+    # Check the login first (200 = good)
+    $status = curl.exe -s --max-time 10 -o NUL -w '%{http_code}' --digest -u $cred "http://$CameraHost/"
+    if ($status -ne '200') { throw "Login to $CameraHost as $User failed (HTTP $status)" }
+
+    foreach ($s in $sections) {
+        $out = (curl.exe -s --max-time 15 --digest -u $cred "http://$CameraHost/cgi-bin/param.cgi?$s") -join "`n"
+        if ($LASTEXITCODE -ne 0) { Write-Warning "$s failed (curl exit $LASTEXITCODE)"; continue }
+        Write-Host "## $s"
+        Write-Host $out
+        Write-Host ''
+        $saved = $out -replace "(?m)^($passwordKeys)=`"[^`"]*`"", '$1="{{PASSWORD}}"'
+        "## $s", "", "Read $(Get-Date -Format 'yyyy-MM-dd HH:mm')", "", '```text', $saved, '```', "" |
+            Add-Content $OutFile -Encoding UTF8
+    }
+    Write-Host "Config from $CameraHost added to $OutFile"
+} finally {
+    Remove-Variable cred
 }
-Set-Content -Path (Join-Path $OutDir 'combined.txt') -Value $combined -Encoding UTF8
-Write-Host "Config from $CameraHost saved to $OutDir"

@@ -1,0 +1,15 @@
+{
+    "_readme": [
+        "How each config section is written to the camera. Compare-CameraConfig.ps1 uses this to build",
+        "ready-to-run write commands. Filled in from the camera's web page code (write commands.md step 2).",
+        "user:     the login used to write (the guest login may only be allowed to read).",
+        "commands: one entry per write command, in the order to write them (get_system_conf always goes last).",
+        "  command: the post_ command name, for example post_image_conf",
+        "  section: the read section its values come from, for example get_image_conf",
+        "  method:  POST (settings sent as form data) or GET (settings in the URL)",
+        "  fields:  the setting names the web page sends, in its order. Leave out to send every setting",
+        "           in the section except camera-specific ones (MAC, serial, license, firmware)."
+    ],
+    "user": "admin",
+    "commands": []
+}
