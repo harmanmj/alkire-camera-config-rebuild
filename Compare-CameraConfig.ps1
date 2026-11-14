@@ -168,7 +168,8 @@ if ($writes.Count -eq 0) {
         if ($w.method -eq 'GET') {
             $block.Add(('curl.exe -s -w "`nstatus=%{{http_code}}`n" {0} "http://{1}/cgi-bin/param.cgi?{2}&{3}"' -f $login, $CameraHost, $w.command, $body))
         } else {
-            $block.Add(('curl.exe -s -w "`nstatus=%{{http_code}}`n" {0} -X POST "http://{1}/cgi-bin/param.cgi?{2}" --data "{3}"' -f $login, $CameraHost, $w.command, $body))
+            # The camera's web page prepends cururl=http:// to every POST body; the CGI expects it.
+            $block.Add(('curl.exe -s -w "`nstatus=%{{http_code}}`n" {0} -X POST "http://{1}/cgi-bin/param.cgi?{2}" --data "cururl=http://&{3}"' -f $login, $CameraHost, $w.command, $body))
         }
         $block.Add('Remove-Variable p' + (($pwFields | ForEach-Object { ", pw_$_" }) -join ''))
 

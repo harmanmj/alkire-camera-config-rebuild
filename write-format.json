@@ -11,5 +11,12 @@
         "           in the section except camera-specific ones (MAC, serial, license, firmware)."
     ],
     "user": "admin",
-    "commands": []
+    "commands": [
+        { "command": "post_image_conf", "section": "get_image_conf", "method": "POST" },
+        { "command": "post_media_video", "section": "get_media_video", "method": "POST" },
+        { "command": "post_media_audio", "section": "get_media_audio", "method": "POST" },
+        { "command": "post_overlay_conf", "section": "get_overlay_conf", "method": "POST" },
+        { "command": "post_ndi_info", "section": "get_ndi_info", "method": "GET" },
+        { "command": "post_system_conf", "section": "get_system_conf", "method": "POST" }
+    ]
 }

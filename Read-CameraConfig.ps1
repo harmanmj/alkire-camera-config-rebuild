@@ -17,7 +17,7 @@
 param(
     [Parameter(Mandatory)][string]$OutFile,
     [string]$CameraHost = '192.168.111.245',
-    [string]$User = 'guest'
+    [string]$User = 'admin'
 )
 $ErrorActionPreference = 'Stop'
 

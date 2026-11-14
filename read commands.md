@@ -12,7 +12,7 @@ These are read-only (`get_*` commands): nothing is written to the camera and it 
 
 ## Read all sections at once
 
-[Read-CameraConfig.ps1](Read-CameraConfig.ps1) runs every block below in one go. It asks for the `guest`
+[Read-CameraConfig.ps1](Read-CameraConfig.ps1) runs every block below in one go. It asks for the `admin`
 password once, prints each section (passwords included), and saves each one to the output file in the
 same layout, with passwords replaced by `{{PASSWORD}}`:
 
@@ -41,8 +41,8 @@ This should print `login_status=200`. Any other number means the login failed or
 This one only prints, it does not save anything.
 
 ```powershell
-$p = Read-Host "Camera password for guest" -AsSecureString
-curl.exe -s -o NUL -w "login_status=%{http_code}`n" --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) http://192.168.111.245/
+$p = Read-Host "Camera password for admin" -AsSecureString
+curl.exe -s -o NUL -w "login_status=%{http_code}`n" --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) http://192.168.111.245/
 Remove-Variable p
 ```
 
@@ -50,8 +50,8 @@ Remove-Variable p
 
 ```powershell
 $s = "get_device_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -62,8 +62,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_system_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -74,8 +74,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_network_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -86,8 +86,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_ipcfg_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -98,8 +98,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_image_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -110,8 +110,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_advance_image_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -122,8 +122,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_media_video"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -134,8 +134,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_media_audio"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -146,8 +146,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_overlay_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -158,8 +158,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_ndi_info"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
@@ -170,8 +170,8 @@ $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_p
 
 ```powershell
 $s = "get_language_conf"
-$p = Read-Host "Camera password for guest" -AsSecureString
-$out = (curl.exe -s --digest -u ("guest:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
+$p = Read-Host "Camera password for admin" -AsSecureString
+$out = (curl.exe -s --digest -u ("admin:" + [Net.NetworkCredential]::new('', $p).Password) "http://192.168.111.245/cgi-bin/param.cgi?$s") -join "`n"
 Remove-Variable p
 $out
 $saved = $out -replace '(?m)^(userpasswd|guestpasswd|srt_passstr|sipdevice_ipc_pw)="[^"]*"', '$1="{{PASSWORD}}"'
